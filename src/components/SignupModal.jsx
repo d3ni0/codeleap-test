@@ -14,7 +14,7 @@ export default function SignupModal({ onComplete }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-dark-bg flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 bg-dark-bg flex flex-col items-center justify-center p-4 sm:p-6">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -45,6 +45,22 @@ export default function SignupModal({ onComplete }) {
           </div>
         </form>
       </motion.div>
+
+      <footer className="absolute bottom-0 left-0 right-0 bg-dark-bg py-4 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-dark-yellow text-base font-medium">
+            Developed by{' '}
+            <a 
+              href="https://d3ni0.dev" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="font-bold text-dark-yellow hover:text-codeleap-blue transition-all duration-300 hover:scale-110 inline-block"
+            >
+              {'{ d3ni0 }'}
+            </a>
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

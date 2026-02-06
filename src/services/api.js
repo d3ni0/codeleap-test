@@ -10,7 +10,7 @@ export const api = axios.create({
 });
 
 export const postsAPI = {
-  getAll: () => api.get(''),
+  getAll: (params = '') => api.get(params),
   create: (data) => api.post('', data),
   update: (id, data) => api.patch(`${id}/`, data),
   delete: (id) => api.delete(`${id}/`),

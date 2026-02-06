@@ -1,5 +1,9 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getUsername } from '../utils/localStorage';
+import LikeButton from './LikeButton';
+import CommentsSection from './CommentsSection';
+import { getCommentCount } from '../utils/comments';
 
 const getRelativeTime = (datetime) => {
   const now = new Date();
@@ -17,9 +21,27 @@ const getRelativeTime = (datetime) => {
   return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
 };
 
+const isNewPost = (datetime) => {
+  const now = new Date();
+  const posted = new Date(datetime);
+  const diffMs = now - posted;
+  const diffHours = diffMs / (1000 * 60 * 60);
+  return diffHours < 1; // Less than 1 hour
+};
+
 export default function PostCard({ post, onEdit, onDelete }) {
   const currentUsername = getUsername();
   const isOwner = post.username === currentUsername;
+  const [showComments, setShowComments] = useState(false);
+  const [commentCount, setCommentCount] = useState(0);
+
+  useEffect(() => {
+    setCommentCount(getCommentCount(post.id));
+    const interval = setInterval(() => {
+      setCommentCount(getCommentCount(post.id));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [post.id]);
 
   return (
     <motion.div
@@ -29,8 +51,15 @@ export default function PostCard({ post, onEdit, onDelete }) {
       transition={{ duration: 0.3 }}
       className="bg-dark-card border border-gray-800 rounded-lg overflow-hidden mb-4 hover:shadow-2xl hover:shadow-codeleap-blue/10 hover:border-gray-600 hover:scale-[1.02] transition-all duration-300"
     >
-      <div className="bg-codeleap-blue text-white px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
-        <h3 className="font-bold text-base sm:text-lg truncate pr-2">{post.title}</h3>
+      <div className="bg-dark-card text-dark-yellow px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center border-b border-gray-800">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <h3 className="font-bold text-base sm:text-lg truncate">{post.title}</h3>
+          {isNewPost(post.created_datetime) && (
+            <span className="px-2 py-0.5 bg-green-600 text-white text-xs font-bold rounded-full flex-shrink-0 animate-pulse">
+              NEW
+            </span>
+          )}
+        </div>
         {isOwner && (
           <div className="flex gap-2 sm:gap-3 flex-shrink-0">
             <button
@@ -83,7 +112,35 @@ export default function PostCard({ post, onEdit, onDelete }) {
           <span>{getRelativeTime(post.created_datetime)}</span>
         </div>
         
-        <p className="text-dark-yellow whitespace-pre-wrap text-sm sm:text-base break-words">{post.content}</p>
+        <p className="text-dark-yellow whitespace-pre-wrap text-sm sm:text-base break-words mb-4">{post.content}</p>
+        
+        <div className="flex items-center justify-between pt-3 border-t border-gray-800">
+          <div className="flex items-center gap-4">
+            <LikeButton postId={post.id} />
+            <button
+              onClick={() => setShowComments(!showComments)}
+              className="flex items-center gap-1.5 text-dark-yellow hover:text-codeleap-blue transition-colors"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                />
+              </svg>
+              <span className="text-sm font-medium">{commentCount}</span>
+            </button>
+          </div>
+        </div>
+        
+        <CommentsSection postId={post.id} isOpen={showComments} />
       </div>
     </motion.div>
   );
