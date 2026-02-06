@@ -2,7 +2,7 @@
 
 [![Developed by d3ni0](https://img.shields.io/badge/developed%20by-%7B%20d3ni0%20%7D-8040FF?style=flat-square)](https://d3ni0.dev)
 
-🔗 **Live Demo**: [https://codeleap.d3ni0.dev](https://codeleap.d3ni0.dev)
+🔗 **Live Demo**: [codeleap.d3ni0.dev](https://codeleap.d3ni0.dev) | [Vercel](https://codeleap-test-one.vercel.app)
 
 A feature-rich React-based social network application built with Vite, React Query, Tailwind CSS, and Framer Motion.
 
@@ -182,3 +182,9 @@ src/
 ## License
 
 MIT
+
+---
+
+## 👨‍💻 Author
+
+**Developed by [<span style="color: #8040FF">{ d3ni0 }</span>](https://d3ni0.dev)**
