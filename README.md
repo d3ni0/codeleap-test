@@ -5,7 +5,8 @@ A feature-rich React-based social network application built with Vite, React Que
 ## Features
 
 ### Core Features
-- ✅ User authentication with logout functionality
+- ✅ **Firebase Authentication**: Google Sign-In with profile photo and name
+- ✅ User authentication with logout functionality (localStorage fallback)
 - ✅ Create, read, update, and delete posts
 - ✅ Real-time post list updates
 - ✅ Ownership-based edit/delete permissions
@@ -29,7 +30,8 @@ A feature-rich React-based social network application built with Vite, React Que
 
 - **Framework**: React 18
 - **Build Tool**: Vite
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS v4
+- **Authentication**: Firebase Auth (Google Sign-In)
 - **Data Fetching**: React Query (TanStack Query)
 - **HTTP Client**: Axios
 - **Animations**: Framer Motion
@@ -41,6 +43,10 @@ A feature-rich React-based social network application built with Vite, React Que
 # Install dependencies
 npm install
 
+# Configure environment variables
+# Copy .env.example to .env.local and fill in your Firebase credentials
+cp .env.example .env.local
+
 # Run development server
 npm run dev
 
@@ -51,9 +57,24 @@ npm run build
 npm run preview
 ```
 
+### Environment Variables
+
+Create a `.env.local` file in the root directory with your Firebase credentials:
+
+```env
+VITE_FIREBASE_API_KEY=your_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
+
 ## Usage
 
-1. **Sign Up**: Enter your username on the welcome screen
+1. **Sign In**: 
+   - Click "Continue with Google" for instant login with your Google account
+   - Or enter a username for quick access (localStorage-based)
 2. **Create Post**: Fill in the title and content, then click "Create"
 3. **View Posts**: All posts are displayed with infinite scroll
 4. **Like Posts**: Click the heart icon to like/unlike posts
@@ -88,6 +109,7 @@ The application integrates with the CodeLeap test API:
 - ✅ Header with user info and logout
 
 ### Bonus Features
+- ✅ **Third-party Authentication**: Firebase Google Sign-In with profile integration
 - ✅ **Likes**: Full like/unlike system with counter
 - ✅ **Comments**: Add, view, and delete comments
 - ✅ **Infinite Scroll**: Pagination with Intersection Observer
@@ -98,7 +120,7 @@ The application integrates with the CodeLeap test API:
 - ✅ **Animations**: Smooth transitions with Framer Motion
 - ✅ **Loading States**: Skeleton screens and spinners
 - ✅ **Dark Theme**: Custom color scheme with yellow accents
-- ✅ **UX Enhancements**: "NEW" badges, custom scrollbar, hover effects
+- ✅ **UX Enhancements**: "NEW" badges, custom scrollbar, hover effects, profile photos
 
 ## Design Decisions
 
@@ -116,8 +138,13 @@ The application integrates with the CodeLeap test API:
 ```
 src/
 ├── components/
-│   ├── SignupModal.jsx       # Welcome screen
-│   ├── Header.jsx            # Header with user info and logout
+│   ├── SignupModal.jsx       # Welcome screen with Google Sign-In
+│   ├── Header.jsx            # Header with user info, photo, and logout
+├── config/
+│   └── firebase.js           # Firebase configuration
+├── contexts/
+│   └── AuthContext.jsx       # Authentication context provider
+├── components/
 │   ├── PostForm.jsx          # Create post form
 │   ├── PostCard.jsx          # Individual post display
 │   ├── PostList.jsx          # Infinite scroll post list

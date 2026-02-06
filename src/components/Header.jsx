@@ -1,14 +1,24 @@
 import { motion } from 'framer-motion';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Header({ username, onLogout }) {
+  const { user } = useAuth();
+
   return (
     <header className="bg-dark-card text-dark-yellow py-4 sm:py-6 px-4 shadow-md border-b border-gray-800">
       <div className="max-w-4xl mx-auto flex justify-between items-center">
         <h1 className="text-xl sm:text-2xl font-bold">CodeLeap Network</h1>
         
         <div className="flex items-center gap-3 sm:gap-4">
-          <span className="text-sm sm:text-base">
-            Hello, <span className="font-bold">{username}</span>
+          {user?.photoURL && (
+            <img 
+              src={user.photoURL} 
+              alt={user.displayName}
+              className="w-8 h-8 rounded-full border-2 border-dark-yellow"
+            />
+          )}
+          <span className="text-sm sm:text-base hidden sm:block">
+            Hello, <span className="font-bold">{user?.displayName || username}</span>
           </span>
           <motion.button
             whileHover={{ scale: 1.05 }}

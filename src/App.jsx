@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import SignupModal from './components/SignupModal';
 import Header from './components/Header';
 import PostForm from './components/PostForm';
@@ -24,6 +25,7 @@ function MainApp() {
   const [username, setUsername] = useState(null);
   const [postToDelete, setPostToDelete] = useState(null);
   const [postToEdit, setPostToEdit] = useState(null);
+  const { user, loading, signOut } = useAuth();
   
   const { data: posts } = usePosts();
   const {
@@ -47,18 +49,30 @@ function MainApp() {
     setUsername(getUsername());
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut();
     clearUsername();
     setUsername(null);
   };
 
-  if (!username) {
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-dark-bg flex items-center justify-center">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-dark-yellow mb-4"></div>
+          <p className="text-dark-yellow">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user && !username) {
     return <SignupModal onComplete={handleSignupComplete} />;
   }
 
   return (
     <div className="min-h-screen bg-dark-bg flex flex-col">
-      <Header username={username} onLogout={handleLogout} />
+      <Header username={user?.displayName || username} onLogout={handleLogout} />
 
       <main className="flex-1 max-w-4xl mx-auto w-full px-3 sm:px-4 py-4 sm:py-8">
         <PostForm />
@@ -115,7 +129,9 @@ function MainApp() {
 export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <MainApp />
+      <AuthProvider>
+        <MainApp />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
