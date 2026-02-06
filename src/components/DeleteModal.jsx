@@ -15,12 +15,13 @@ export default function DeleteModal({ post, onClose }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+      <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
-          className="bg-dark-card border border-gray-700 rounded-lg shadow-xl p-6 w-full max-w-md"
+          transition={{ duration: 0.2 }}
+          className="bg-dark-card border border-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md"
         >
           <h2 className="text-xl font-bold mb-4 text-dark-yellow">Are you sure you want to delete this item?</h2>
           
@@ -28,14 +29,14 @@ export default function DeleteModal({ post, onClose }) {
             <button
               onClick={onClose}
               disabled={deletePost.isPending}
-              className="px-6 py-2 border border-gray-600 text-dark-yellow rounded font-semibold hover:bg-dark-bg transition-colors disabled:opacity-50"
+              className="px-6 py-2 border border-gray-600 text-dark-yellow rounded font-semibold hover:bg-dark-bg hover:scale-105 transition-all duration-300 disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               onClick={handleDelete}
               disabled={deletePost.isPending}
-              className="px-6 py-2 bg-red-600 text-white rounded font-semibold hover:bg-red-700 transition-colors disabled:opacity-50"
+              className="px-6 py-2 bg-red-600 text-white rounded font-semibold hover:bg-red-700 hover:shadow-lg hover:scale-105 transition-all duration-300 disabled:opacity-50"
             >
               {deletePost.isPending ? 'Deleting...' : 'Delete'}
             </button>

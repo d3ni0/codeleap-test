@@ -26,12 +26,13 @@ export default function EditModal({ post, onClose }) {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50">
+      <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.9 }}
-          className="bg-dark-card border border-gray-700 rounded-lg shadow-xl p-6 w-full max-w-2xl"
+          transition={{ duration: 0.2 }}
+          className="bg-dark-card border border-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-2xl"
         >
           <h2 className="text-xl font-bold mb-4 text-dark-yellow">Edit item</h2>
           
@@ -42,7 +43,7 @@ export default function EditModal({ post, onClose }) {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Hello world"
-              className="w-full px-3 py-2 bg-dark-bg border border-gray-600 text-dark-yellow placeholder-gray-500 rounded focus:outline-none focus:ring-2 focus:ring-codeleap-blue"
+              className="w-full px-3 py-2 bg-dark-bg border border-gray-600 text-dark-yellow placeholder-gray-500 rounded focus:outline-none focus:ring-2 focus:ring-codeleap-blue focus:border-codeleap-blue transition-all duration-300"
             />
           </div>
           
@@ -53,7 +54,7 @@ export default function EditModal({ post, onClose }) {
               onChange={(e) => setContent(e.target.value)}
               placeholder="Content here"
               rows="4"
-              className="w-full px-3 py-2 bg-dark-bg border border-gray-600 text-dark-yellow placeholder-gray-500 rounded resize-none focus:outline-none focus:ring-2 focus:ring-codeleap-blue"
+              className="w-full px-3 py-2 bg-dark-bg border border-gray-600 text-dark-yellow placeholder-gray-500 rounded resize-none focus:outline-none focus:ring-2 focus:ring-codeleap-blue focus:border-codeleap-blue transition-all duration-300"
             />
           </div>
           
@@ -61,14 +62,14 @@ export default function EditModal({ post, onClose }) {
             <button
               onClick={onClose}
               disabled={updatePost.isPending}
-              className="px-6 py-2 border border-gray-600 text-dark-yellow rounded font-semibold hover:bg-dark-bg transition-colors disabled:opacity-50"
+              className="px-6 py-2 border border-gray-600 text-dark-yellow rounded font-semibold hover:bg-dark-bg hover:scale-105 transition-all duration-300 disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
               disabled={!isFormValid || updatePost.isPending}
-              className="px-6 py-2 bg-green-600 text-white rounded font-semibold hover:bg-green-700 transition-colors disabled:bg-gray-600 disabled:cursor-not-allowed"
+              className="px-6 py-2 bg-green-600 text-white rounded font-semibold hover:bg-green-700 hover:shadow-lg hover:scale-105 transition-all duration-300 disabled:bg-gray-600 disabled:cursor-not-allowed"
             >
               {updatePost.isPending ? 'Saving...' : 'Save'}
             </button>

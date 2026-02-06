@@ -31,14 +31,14 @@ export default function SignupModal({ onComplete }) {
             value={username}
             onChange={(e) => setUsernameInput(e.target.value)}
             placeholder="John doe"
-            className="w-full px-3 py-2 bg-dark-bg border border-gray-600 text-dark-yellow placeholder-gray-500 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-codeleap-blue"
+            className="w-full px-3 py-2 bg-dark-bg border border-gray-600 text-dark-yellow placeholder-gray-500 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-codeleap-blue focus:border-codeleap-blue transition-all duration-300"
           />
           
           <div className="flex justify-end">
             <button
               type="submit"
               disabled={!username.trim()}
-              className="px-8 py-2 bg-codeleap-blue text-white rounded font-semibold disabled:bg-gray-600 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors"
+              className="px-8 py-2 bg-codeleap-blue text-white rounded font-semibold disabled:bg-gray-600 disabled:cursor-not-allowed hover:bg-blue-600 hover:shadow-lg hover:scale-105 transition-all duration-300"
             >
               ENTER
             </button>

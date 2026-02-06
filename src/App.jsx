@@ -81,7 +81,7 @@ function MainApp() {
         </AnimatePresence>
       </main>
 
-      <footer className="bg-dark-card border-t border-gray-700 py-4 px-4">
+      <footer className="bg-dark-card border-t border-gray-800 py-6 px-4 mt-auto">
         <div className="max-w-4xl mx-auto text-center">
           <p className="text-dark-yellow text-sm">
             Developed by{' '}
@@ -89,9 +89,9 @@ function MainApp() {
               href="https://d3ni0.dev" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="font-bold hover:text-codeleap-blue transition-colors underline"
+              className="font-bold hover:text-codeleap-blue transition-all duration-300 underline decoration-2 underline-offset-2 hover:scale-110 inline-block"
             >
-              d3ni0
+              {'{ d3ni0 }'}
             </a>
           </p>
         </div>

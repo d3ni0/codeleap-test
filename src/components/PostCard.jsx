@@ -26,7 +26,8 @@ export default function PostCard({ post, onEdit, onDelete }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="bg-dark-card border border-gray-700 rounded-lg overflow-hidden mb-4 hover:shadow-xl hover:border-gray-600 transition-all"
+      transition={{ duration: 0.3 }}
+      className="bg-dark-card border border-gray-800 rounded-lg overflow-hidden mb-4 hover:shadow-2xl hover:shadow-codeleap-blue/10 hover:border-gray-600 hover:scale-[1.02] transition-all duration-300"
     >
       <div className="bg-codeleap-blue text-white px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
         <h3 className="font-bold text-base sm:text-lg truncate pr-2">{post.title}</h3>
@@ -34,7 +35,7 @@ export default function PostCard({ post, onEdit, onDelete }) {
           <div className="flex gap-2 sm:gap-3 flex-shrink-0">
             <button
               onClick={() => onEdit(post)}
-              className="hover:opacity-80 transition-opacity"
+              className="hover:opacity-80 hover:scale-110 transition-all duration-300"
               aria-label="Edit post"
             >
               <svg
@@ -54,7 +55,7 @@ export default function PostCard({ post, onEdit, onDelete }) {
             </button>
             <button
               onClick={() => onDelete(post)}
-              className="hover:opacity-80 transition-opacity"
+              className="hover:opacity-80 hover:scale-110 transition-all duration-300"
               aria-label="Delete post"
             >
               <svg
