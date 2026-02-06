@@ -9,7 +9,7 @@ export default function DeleteModal({ post, onClose }) {
       await deletePost.mutateAsync(post.id);
       onClose();
     } catch (error) {
-      console.error('Error deleting post:', error);
+      // Error handled by React Query
     }
   };
 
@@ -23,7 +23,7 @@ export default function DeleteModal({ post, onClose }) {
           transition={{ duration: 0.2 }}
           className="bg-dark-card border border-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-md"
         >
-          <h2 className="text-xl font-bold mb-4 text-dark-yellow">Are you sure you want to delete this item?</h2>
+          <h2 className="text-xl font-bold mb-4 text-dark-yellow">Delete this post?</h2>
           
           <div className="flex gap-3 justify-end">
             <button

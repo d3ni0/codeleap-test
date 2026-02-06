@@ -24,8 +24,7 @@ export default function SignupModal({ onComplete }) {
       await signInWithGoogle();
       onComplete();
     } catch (err) {
-      setError('Failed to sign in with Google. Please try again.');
-      console.error(err);
+      setError('Could not sign in with Google. Try again?');
     } finally {
       setLoading(false);
     }
@@ -48,13 +47,13 @@ export default function SignupModal({ onComplete }) {
         
         <form onSubmit={handleSubmit}>
           <label className="block text-sm mb-2 text-dark-yellow">
-            Please enter your username
+            Enter your username
           </label>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsernameInput(e.target.value)}
-            placeholder="John doe"
+            placeholder="your username"
             className="w-full px-3 py-2 bg-dark-bg border border-gray-600 text-dark-yellow placeholder-gray-500 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-codeleap-blue focus:border-codeleap-blue transition-all duration-300"
           />
           

@@ -17,7 +17,7 @@ export default function EditModal({ post, onClose }) {
         });
         onClose();
       } catch (error) {
-        console.error('Error updating post:', error);
+        // Error handled by React Query
       }
     }
   };
@@ -34,7 +34,7 @@ export default function EditModal({ post, onClose }) {
           transition={{ duration: 0.2 }}
           className="bg-dark-card border border-gray-800 rounded-lg shadow-2xl p-6 w-full max-w-2xl"
         >
-          <h2 className="text-xl font-bold mb-4 text-dark-yellow">Edit item</h2>
+          <h2 className="text-xl font-bold mb-4 text-dark-yellow">Edit post</h2>
           
           <div className="mb-4">
             <label className="block text-sm font-medium mb-2 text-dark-yellow">Title</label>
@@ -42,7 +42,7 @@ export default function EditModal({ post, onClose }) {
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Hello world"
+              placeholder="Post title"
               className="w-full px-3 py-2 bg-dark-bg border border-gray-600 text-dark-yellow placeholder-gray-500 rounded focus:outline-none focus:ring-2 focus:ring-codeleap-blue focus:border-codeleap-blue transition-all duration-300"
             />
           </div>
@@ -52,7 +52,7 @@ export default function EditModal({ post, onClose }) {
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              placeholder="Content here"
+              placeholder="Post content"
               rows="4"
               className="w-full px-3 py-2 bg-dark-bg border border-gray-600 text-dark-yellow placeholder-gray-500 rounded resize-none focus:outline-none focus:ring-2 focus:ring-codeleap-blue focus:border-codeleap-blue transition-all duration-300"
             />

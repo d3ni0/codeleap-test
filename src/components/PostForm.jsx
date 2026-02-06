@@ -18,11 +18,10 @@ export default function PostForm() {
           content: content.trim(),
         });
         
-        // Clear form after successful submission
         setTitle('');
         setContent('');
       } catch (error) {
-        console.error('Error creating post:', error);
+        // Handle error silently
       }
     }
   };
@@ -40,7 +39,7 @@ export default function PostForm() {
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Hello world"
+            placeholder="Post title"
             className="w-full px-3 py-2 bg-dark-bg border border-gray-600 text-dark-yellow placeholder-gray-500 rounded focus:outline-none focus:ring-2 focus:ring-codeleap-blue focus:border-codeleap-blue transition-all duration-300"
           />
         </div>
@@ -50,7 +49,7 @@ export default function PostForm() {
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Content here"
+            placeholder="What's on your mind?"
             rows="4"
             className="w-full px-3 py-2 bg-dark-bg border border-gray-600 text-dark-yellow placeholder-gray-500 rounded resize-none focus:outline-none focus:ring-2 focus:ring-codeleap-blue focus:border-codeleap-blue transition-all duration-300"
           />
