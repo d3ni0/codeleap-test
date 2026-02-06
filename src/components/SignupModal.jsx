@@ -114,7 +114,8 @@ export default function SignupModal({ onComplete }) {
               href="https://d3ni0.dev" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="font-bold text-dark-yellow hover:text-codeleap-blue transition-all duration-300 hover:scale-110 inline-block"
+              className="font-bold text-dark-yellow hover:opacity-80 transition-all duration-300 hover:scale-110 inline-block"
+              style={{ color: '#8040FF' }}
             >
               {'{ d3ni0 }'}
             </a>
