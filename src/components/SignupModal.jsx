@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { setUsername } from '../utils/localStorage';
 import { useAuth } from '../contexts/AuthContext';
+import Footer from './Footer';
 
 export default function SignupModal({ onComplete }) {
   const [username, setUsernameInput] = useState('');
@@ -105,22 +106,7 @@ export default function SignupModal({ onComplete }) {
         </button>
       </motion.div>
 
-      <footer className="absolute bottom-0 left-0 right-0 bg-dark-bg py-4 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-dark-yellow text-base font-medium">
-            Developed by{' '}
-            <a 
-              href="https://d3ni0.dev" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="font-bold text-dark-yellow hover:opacity-80 transition-all duration-300 hover:scale-110 inline-block"
-              style={{ color: '#8040FF' }}
-            >
-              {'{ d3ni0 }'}
-            </a>
-          </p>
-        </div>
-      </footer>
+      <Footer variant="absolute" />
     </div>
   );
 }

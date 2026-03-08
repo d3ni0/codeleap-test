@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import SignupModal from './components/SignupModal';
 import Header from './components/Header';
 import LoadingSpinner from './components/LoadingSpinner';
+import Footer from './components/Footer';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
 import PostFilters from './components/PostFilters';
@@ -91,22 +92,7 @@ function MainApp() {
         />
       </main>
 
-      <footer className="bg-dark-bg py-6 px-4 mt-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <p className="text-dark-yellow text-base font-medium">
-            Developed by{' '}
-            <a 
-              href="https://d3ni0.dev" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="font-bold hover:opacity-80 transition-all duration-300 hover:scale-110 inline-block"
-              style={{ color: '#8040FF' }}
-            >
-              {'{ d3ni0 }'}
-            </a>
-          </p>
-        </div>
-      </footer>
+      <Footer />
 
       {postToDelete && (
         <DeleteModal
