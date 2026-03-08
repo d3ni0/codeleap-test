@@ -1,19 +1,5 @@
-import { useQuery, useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { postsAPI } from '../services/api';
-
-export const usePosts = () => {
-  return useQuery({
-    queryKey: ['posts'],
-    queryFn: async () => {
-      const { data } = await postsAPI.getAll();
-      // Sort by newest first
-      const posts = data.results || [];
-      return posts.sort((a, b) => 
-        new Date(b.created_datetime) - new Date(a.created_datetime)
-      );
-    },
-  });
-};
 
 export const useInfinitePosts = () => {
   return useInfiniteQuery({

@@ -10,7 +10,7 @@ import PostList from './components/PostList';
 import PostFilters from './components/PostFilters';
 import DeleteModal from './components/DeleteModal';
 import EditModal from './components/EditModal';
-import { usePosts } from './hooks/usePosts';
+import { useInfinitePosts } from './hooks/usePosts';
 import usePostFilters from './hooks/usePostFilters';
 import { getUsername, clearUsername } from './utils/localStorage';
 
@@ -29,7 +29,16 @@ function MainApp() {
   const [postToEdit, setPostToEdit] = useState(null);
   const { user, loading, signOut } = useAuth();
   
-  const { data: posts } = usePosts();
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading: isLoadingPosts,
+    error: postsError,
+  } = useInfinitePosts();
+
+  const posts = data?.pages.flatMap((page) => page.results) ?? [];
   const {
     searchQuery,
     setSearchQuery,
@@ -89,6 +98,11 @@ function MainApp() {
           onEdit={setPostToEdit}
           onDelete={setPostToDelete}
           filteredPosts={filteredPosts}
+          fetchNextPage={fetchNextPage}
+          hasNextPage={hasNextPage}
+          isFetchingNextPage={isFetchingNextPage}
+          isLoading={isLoadingPosts}
+          error={postsError}
         />
       </main>
 

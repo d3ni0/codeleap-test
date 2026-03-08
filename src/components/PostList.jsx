@@ -2,18 +2,17 @@ import { AnimatePresence } from 'framer-motion';
 import PostCard from './PostCard';
 import LoadingSpinner from './LoadingSpinner';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
-import { useInfinitePosts } from '../hooks/usePosts';
 
-export default function PostList({ onEdit, onDelete, filteredPosts = null }) {
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    error,
-  } = useInfinitePosts();
-
+export default function PostList({
+  onEdit,
+  onDelete,
+  filteredPosts,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  isLoading,
+  error,
+}) {
   const loadMoreRef = useInfiniteScroll(
     () => {
       if (hasNextPage && !isFetchingNextPage) {
@@ -40,8 +39,7 @@ export default function PostList({ onEdit, onDelete, filteredPosts = null }) {
     );
   }
 
-  // Use filtered posts if provided, otherwise use infinite query data
-  const posts = filteredPosts || data?.pages.flatMap((page) => page.results) || [];
+  const posts = filteredPosts ?? [];
 
   if (posts.length === 0) {
     return (
@@ -64,7 +62,7 @@ export default function PostList({ onEdit, onDelete, filteredPosts = null }) {
         ))}
       </AnimatePresence>
 
-      {!filteredPosts && hasNextPage && (
+      {hasNextPage && (
         <div ref={loadMoreRef} className="text-center py-8">
           {isFetchingNextPage ? (
             <LoadingSpinner message="Loading more posts..." />
@@ -79,7 +77,7 @@ export default function PostList({ onEdit, onDelete, filteredPosts = null }) {
         </div>
       )}
 
-      {!filteredPosts && !hasNextPage && posts.length > 0 && (
+      {!hasNextPage && posts.length > 0 && (
         <div className="text-center py-8">
           <p className="text-gray-500">No more posts to load</p>
         </div>
