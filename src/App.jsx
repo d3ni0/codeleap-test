@@ -12,7 +12,6 @@ import DeleteModal from './components/DeleteModal';
 import EditModal from './components/EditModal';
 import { useInfinitePosts } from './hooks/usePosts';
 import usePostFilters from './hooks/usePostFilters';
-import { getUsername, clearUsername } from './utils/localStorage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,10 +23,9 @@ const queryClient = new QueryClient({
 });
 
 function MainApp() {
-  const [username, setUsername] = useState(null);
   const [postToDelete, setPostToDelete] = useState(null);
   const [postToEdit, setPostToEdit] = useState(null);
-  const { user, loading, signOut } = useAuth();
+  const { currentUser, loading, signOut } = useAuth();
   
   const {
     data,
@@ -49,21 +47,8 @@ function MainApp() {
     filteredPosts,
   } = usePostFilters(posts);
 
-  useEffect(() => {
-    const savedUsername = getUsername();
-    if (savedUsername) {
-      setUsername(savedUsername);
-    }
-  }, []);
-
-  const handleSignupComplete = () => {
-    setUsername(getUsername());
-  };
-
   const handleLogout = async () => {
     await signOut();
-    clearUsername();
-    setUsername(null);
   };
 
   if (loading) {
@@ -74,13 +59,13 @@ function MainApp() {
     );
   }
 
-  if (!user && !username) {
-    return <SignupModal onComplete={handleSignupComplete} />;
+  if (!currentUser) {
+    return <SignupModal />;
   }
 
   return (
     <div className="min-h-screen bg-dark-bg flex flex-col">
-      <Header username={user?.displayName || username} onLogout={handleLogout} />
+      <Header currentUser={currentUser} onLogout={handleLogout} />
 
       <main className="flex-1 max-w-4xl mx-auto w-full px-3 sm:px-4 py-4 sm:py-8">
         <PostForm />

@@ -1,11 +1,11 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { 
-  signInWithPopup, 
+import {
+  signInWithPopup,
   signOut as firebaseSignOut,
-  onAuthStateChanged 
+  onAuthStateChanged,
 } from 'firebase/auth';
 import { auth, googleProvider } from '../config/firebase';
-import { setUsername, clearUsername } from '../utils/localStorage';
+import { getUsername, setUsername, clearUsername } from '../utils/localStorage';
 
 const AuthContext = createContext();
 
@@ -18,24 +18,25 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
         const userData = {
-          uid: firebaseUser.uid,
-          email: firebaseUser.email,
-          displayName: firebaseUser.displayName,
+          displayName: firebaseUser.displayName || firebaseUser.email?.split('@')[0],
           photoURL: firebaseUser.photoURL,
         };
-        setUser(userData);
-        // Save username to localStorage for compatibility with existing code
-        setUsername(firebaseUser.displayName || firebaseUser.email.split('@')[0]);
+        setCurrentUser(userData);
+        setUsername(userData.displayName);
       } else {
-        setUser(null);
-        clearUsername();
+        const savedUsername = getUsername();
+        if (savedUsername) {
+          setCurrentUser({ displayName: savedUsername, photoURL: null });
+        } else {
+          setCurrentUser(null);
+        }
       }
       setLoading(false);
     });
@@ -53,10 +54,19 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const signInWithUsername = (username) => {
+    const trimmed = username?.trim();
+    if (trimmed) {
+      setUsername(trimmed);
+      setCurrentUser({ displayName: trimmed, photoURL: null });
+    }
+  };
+
   const signOut = async () => {
     try {
       await firebaseSignOut(auth);
       clearUsername();
+      setCurrentUser(null);
     } catch (error) {
       console.error('Error signing out:', error);
       throw error;
@@ -64,9 +74,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const value = {
-    user,
+    currentUser,
     loading,
     signInWithGoogle,
+    signInWithUsername,
     signOut,
   };
 

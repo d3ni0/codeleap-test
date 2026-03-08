@@ -1,20 +1,18 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { setUsername } from '../utils/localStorage';
 import { useAuth } from '../contexts/AuthContext';
 import Footer from './Footer';
 
-export default function SignupModal({ onComplete }) {
+export default function SignupModal() {
   const [username, setUsernameInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, signInWithUsername } = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (username.trim()) {
-      setUsername(username.trim());
-      onComplete();
+      signInWithUsername(username.trim());
     }
   };
 
@@ -23,7 +21,6 @@ export default function SignupModal({ onComplete }) {
       setLoading(true);
       setError('');
       await signInWithGoogle();
-      onComplete();
     } catch (err) {
       setError('Could not sign in with Google. Try again?');
     } finally {
