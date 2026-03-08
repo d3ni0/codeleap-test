@@ -1,5 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
 import PostCard from './PostCard';
+import LoadingSpinner from './LoadingSpinner';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import { useInfinitePosts } from '../hooks/usePosts';
 
@@ -25,9 +26,8 @@ export default function PostList({ onEdit, onDelete, filteredPosts = null }) {
 
   if (isLoading) {
     return (
-      <div className="text-center py-8">
-        <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-dark-yellow"></div>
-        <p className="text-dark-yellow mt-2">Loading posts...</p>
+      <div className="py-8">
+        <LoadingSpinner message="Loading posts..." />
       </div>
     );
   }
@@ -67,10 +67,7 @@ export default function PostList({ onEdit, onDelete, filteredPosts = null }) {
       {!filteredPosts && hasNextPage && (
         <div ref={loadMoreRef} className="text-center py-8">
           {isFetchingNextPage ? (
-            <>
-              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-dark-yellow"></div>
-              <p className="text-dark-yellow mt-2">Loading more posts...</p>
-            </>
+            <LoadingSpinner message="Loading more posts..." />
           ) : (
             <button
               onClick={() => fetchNextPage()}

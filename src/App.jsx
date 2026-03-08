@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import SignupModal from './components/SignupModal';
 import Header from './components/Header';
+import LoadingSpinner from './components/LoadingSpinner';
 import PostForm from './components/PostForm';
 import PostList from './components/PostList';
 import PostFilters from './components/PostFilters';
@@ -58,10 +59,7 @@ function MainApp() {
   if (loading) {
     return (
       <div className="min-h-screen bg-dark-bg flex items-center justify-center">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-dark-yellow mb-4"></div>
-          <p className="text-dark-yellow">Loading...</p>
-        </div>
+        <LoadingSpinner size="lg" message="Loading..." />
       </div>
     );
   }
