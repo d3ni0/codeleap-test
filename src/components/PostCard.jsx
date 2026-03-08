@@ -1,33 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getUsername } from '../utils/localStorage';
+import { getRelativeTime, isNewPost } from '../utils/date';
 import LikeButton from './LikeButton';
 import CommentsSection from './CommentsSection';
 import { getCommentCount } from '../utils/comments';
-
-const getRelativeTime = (datetime) => {
-  const now = new Date();
-  const posted = new Date(datetime);
-  const diffMs = now - posted;
-  const diffMins = Math.floor(diffMs / 60000);
-  
-  if (diffMins < 1) return 'just now';
-  if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
-  
-  const diffHours = Math.floor(diffMins / 60);
-  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-  
-  const diffDays = Math.floor(diffHours / 24);
-  return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-};
-
-const isNewPost = (datetime) => {
-  const now = new Date();
-  const posted = new Date(datetime);
-  const diffMs = now - posted;
-  const diffHours = diffMs / (1000 * 60 * 60);
-  return diffHours < 1; // Less than 1 hour
-};
 
 export default function PostCard({ post, onEdit, onDelete }) {
   const currentUsername = getUsername();

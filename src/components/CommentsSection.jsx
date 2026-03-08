@@ -2,22 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getComments, addComment, deleteComment, getCommentCount } from '../utils/comments';
 import { getUsername } from '../utils/localStorage';
-
-const getRelativeTime = (datetime) => {
-  const now = new Date();
-  const posted = new Date(datetime);
-  const diffMs = now - posted;
-  const diffMins = Math.floor(diffMs / 60000);
-  
-  if (diffMins < 1) return 'just now';
-  if (diffMins < 60) return `${diffMins} minute${diffMins > 1 ? 's' : ''} ago`;
-  
-  const diffHours = Math.floor(diffMins / 60);
-  if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
-  
-  const diffDays = Math.floor(diffHours / 24);
-  return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
-};
+import { getRelativeTime } from '../utils/date';
 
 export default function CommentsSection({ postId, isOpen, onCommentChange }) {
   const username = getUsername();
