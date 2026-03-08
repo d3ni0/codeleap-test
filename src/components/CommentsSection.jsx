@@ -19,7 +19,7 @@ const getRelativeTime = (datetime) => {
   return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
 };
 
-export default function CommentsSection({ postId, isOpen }) {
+export default function CommentsSection({ postId, isOpen, onCommentChange }) {
   const username = getUsername();
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
@@ -34,12 +34,14 @@ export default function CommentsSection({ postId, isOpen }) {
       addComment(postId, username, newComment.trim());
       setComments(getComments(postId));
       setNewComment('');
+      onCommentChange?.();
     }
   };
 
   const handleDeleteComment = (commentId) => {
     deleteComment(postId, commentId);
     setComments(getComments(postId));
+    onCommentChange?.();
   };
 
   if (!isOpen) return null;

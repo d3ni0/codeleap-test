@@ -33,15 +33,20 @@ export default function PostCard({ post, onEdit, onDelete }) {
   const currentUsername = getUsername();
   const isOwner = post.username === currentUsername;
   const [showComments, setShowComments] = useState(false);
-  const [commentCount, setCommentCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(() => getCommentCount(post.id));
+
+  const refreshCommentCount = () => setCommentCount(getCommentCount(post.id));
 
   useEffect(() => {
     setCommentCount(getCommentCount(post.id));
-    const interval = setInterval(() => {
-      setCommentCount(getCommentCount(post.id));
-    }, 1000);
-    return () => clearInterval(interval);
   }, [post.id]);
+
+  const handleToggleComments = () => {
+    setShowComments((prev) => {
+      if (!prev) refreshCommentCount();
+      return !prev;
+    });
+  };
 
   return (
     <motion.div
@@ -118,7 +123,7 @@ export default function PostCard({ post, onEdit, onDelete }) {
           <div className="flex items-center gap-4">
             <LikeButton postId={post.id} />
             <button
-              onClick={() => setShowComments(!showComments)}
+              onClick={handleToggleComments}
               className="flex items-center gap-1.5 text-dark-yellow hover:text-codeleap-blue transition-colors"
             >
               <svg
@@ -140,7 +145,7 @@ export default function PostCard({ post, onEdit, onDelete }) {
           </div>
         </div>
         
-        <CommentsSection postId={post.id} isOpen={showComments} />
+        <CommentsSection postId={post.id} isOpen={showComments} onCommentChange={refreshCommentCount} />
       </div>
     </motion.div>
   );
